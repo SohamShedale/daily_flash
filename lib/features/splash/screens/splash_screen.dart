@@ -1,6 +1,6 @@
 import 'package:daily_flash/app/app_routes.dart';
 import 'package:daily_flash/core/theme/app_colors.dart';
-import 'package:daily_flash/core/theme/app_textstyles.dart';
+import 'package:daily_flash/shared/widgets/app_name.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -56,16 +56,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           builder: (context, child) {
             return Opacity(
               opacity: _fadeAnimation.value,
-              child: Transform.scale(
-                scale: _scaleAnimation.value,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Daily', style: AppTextStyles.appName),
-                    Text('Flash', style: AppTextStyles.appName.copyWith(color: AppColors.blue)),
-                  ],
-                ),
-              ),
+              child: Transform.scale(scale: _scaleAnimation.value, child: AppName()),
             );
           },
         ),

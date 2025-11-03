@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTextStyles {
-  AppTextStyles._(); 
+  AppTextStyles._();
 
   static const TextStyle appName = TextStyle(
     fontSize: 28,

@@ -1,5 +1,8 @@
 import 'package:daily_flash/app/app_routes.dart';
+import 'package:daily_flash/features/home/providers/detail_provider.dart';
+import 'package:daily_flash/features/home/screens/bookmarks_screen.dart';
 import 'package:daily_flash/features/home/screens/home_screen.dart';
+import 'package:daily_flash/features/home/screens/news_detail_screen.dart';
 import 'package:daily_flash/features/splash/screens/splash_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +58,33 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: AppRoutes.home,
         pageBuilder: (context, state) =>
             _platformPageBuilder(context: context, state: state, child: const HomeScreen()),
+      ),
+      GoRoute(
+        path: AppRoutes.bookmarks,
+        name: AppRoutes.bookmarks,
+        pageBuilder: (context, state) =>
+            _platformPageBuilder(context: context, state: state, child: const BookmarksScreen()),
+      ),
+      GoRoute(
+        path: AppRoutes.detail,
+        name: AppRoutes.detail,
+        pageBuilder: (context, state) {
+          // Access the provider through the ref from routerProvider
+          final container = ProviderScope.containerOf(context);
+          final article = container.read(detailArticleProvider);
+          if (article == null) {
+            return _platformPageBuilder(
+              context: context,
+              state: state,
+              child: const Scaffold(body: Center(child: Text('Article not found'))),
+            );
+          }
+          return _platformPageBuilder(
+            context: context,
+            state: state,
+            child: NewsDetailScreen(article: article),
+          );
+        },
       ),
     ],
     errorBuilder: (context, state) => Scaffold(body: Center(child: Text('Error: ${state.error}'))),
