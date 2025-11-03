@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:daily_flash/features/home/models/news_model.dart';
 import 'package:daily_flash/features/home/providers/home_state.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,8 +11,15 @@ class HomeProvider extends StateNotifier<HomeState> {
   }
 
   static const String _baseUrl = 'https://newsapi.org/v2/everything';
-  static const String _apiKey = '4f84f2a08c66403aa0cf3872ad4e19ce';
   static const int _pageSize = 20;
+
+  String get _apiKey {
+    final apiKey = dotenv.env['NEWS_API_KEY'];
+    if (apiKey == null || apiKey.isEmpty) {
+      throw Exception('NEWS_API_KEY is not set in .env file');
+    }
+    return apiKey;
+  }
 
   Future<void> fetchNews({bool isRefresh = false}) async {
     if (isRefresh) {
